@@ -1,0 +1,24 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.6.0"
+  }
+}
