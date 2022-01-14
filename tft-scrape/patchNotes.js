@@ -77,14 +77,14 @@ const getPatchNoteChanges = async (patchNote) => {
     allContentChanges.push(contentChangesLi);
   }
   allContentChanges = allContentChanges.flat();
-  console.log(allContentChanges);
+  //   console.log(allContentChanges);
   return allContentChanges;
 };
 
 const loadPatchNote = async () => {
   const baseUrl = 'https://teamfighttactics.leagueoflegends.com/en-us/news/';
   const patchNotesNames = await getNewestPatchNotes();
-  const newestPatchNote = patchNotesNames[1];
+  const newestPatchNote = patchNotesNames[0];
   const patchNotesInfo = await getPatchNoteInfo(newestPatchNote);
   const patchNoteChanges = await getPatchNoteChanges(newestPatchNote);
   //   console.log(newestPatchNote, patchNotesInfo);
