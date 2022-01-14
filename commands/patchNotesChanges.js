@@ -6,6 +6,7 @@ const {
   blockQuote,
 } = require('@discordjs/builders');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const voca = require('voca');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,9 +27,12 @@ module.exports = {
         let patchVersion = newestPatchNote.replace('game-updates/', '');
         patchVersion = patchVersion.replace('/', ' ');
 
-        const keyword = interaction.options.getString('input');
-        const filteredPatchChanges = patchNoteChanges.filter((change) =>
-          change.includes(keyword)
+        const keyword = [
+          voca.capitalize(interaction.options.getString('input')),
+          voca.decapitalize(interaction.options.getString('input')),
+        ];
+        const filteredPatchChanges = patchNoteChanges.filter(
+          (change) => change.includes(keyword[0]) | change.includes(keyword[1])
         );
 
         // console.log(filteredPatchChanges);
@@ -51,8 +55,8 @@ module.exports = {
 
         await interaction.reply({
           content: `${blockQuote(patchVersion)}\nFiltered for keyword: ${bold(
-            keyword
-          )}${result}`,
+            keyword[1]
+          )} / ${bold(keyword[0])}${result}`,
           ephemeral: false,
           components: [row],
         });
