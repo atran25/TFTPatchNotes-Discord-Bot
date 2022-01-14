@@ -38,23 +38,65 @@ const getPatchNoteInfo = async (patchNote) => {
   return patchSummary;
 };
 
+const getPatchNoteChanges = async (patchNote) => {
+  const updateTitles = [
+    'Mid-Patch Updates',
+    'Trait Augments',
+    'Large Changes',
+    'Small Changes',
+  ];
+
+  const baseUrl = 'https://teamfighttactics.leagueoflegends.com/en-us/news/';
+  const { data } = await axios.get(`${baseUrl}${patchNote}`);
+  const $ = cheerio.load(data);
+  const patchHeader = $('header.header-primary');
+  //   console.log(patchHeader.length);
+  const headerTitles = [];
+  for (let i = 0; i < patchHeader.length; i++) {
+    const header = patchHeader[i];
+    const headerTitle = $(header).find('h2').text();
+    // console.log(headerTitle);
+    if (updateTitles.includes(headerTitle)) {
+      headerTitles.push(headerTitle);
+    }
+  }
+  //   console.log(headerTitles);
+  const patchContent = $('div.content-border');
+  //   console.log(patchContent.length);
+  let allContentChanges = [];
+  for (let i = 0; i < patchContent.length; i++) {
+    const content = patchContent[i];
+
+    const contentChangesLi = $(content)
+      .find('ul > li')
+      .map((i, content) => {
+        return $(content).text().trim();
+      })
+      .get();
+    // console.log(contentChangesLi);
+    allContentChanges.push(contentChangesLi);
+  }
+  allContentChanges = allContentChanges.flat();
+  console.log(allContentChanges);
+  return allContentChanges;
+};
+
 const loadPatchNote = async () => {
   const baseUrl = 'https://teamfighttactics.leagueoflegends.com/en-us/news/';
   const patchNotesNames = await getNewestPatchNotes();
-  const newestPatchNote = patchNotesNames[0];
+  const newestPatchNote = patchNotesNames[1];
   const patchNotesInfo = await getPatchNoteInfo(newestPatchNote);
+  const patchNoteChanges = await getPatchNoteChanges(newestPatchNote);
   //   console.log(newestPatchNote, patchNotesInfo);
   return {
     patchNotesInfo,
     newestPatchNote,
     baseUrl,
+    patchNoteChanges,
   };
 };
 
-// const highlight = loadPatchNote();
-// highlight.then((result) => {
-//   console.log(result);
-// });
+loadPatchNote();
 
 module.exports = {
   loadPatchNote,
