@@ -6,3 +6,4 @@ Feel free to use the bot for your own server. Just make sure to use your own Gui
 
 **Screenshots:**  
 ![image](/screenshots/discord-bot-screens.png)
+![discord-bot-screens](https://user-images.githubusercontent.com/15605794/152636606-86d614df-5491-4fc2-a8e4-a24cfe646fe8.png)
